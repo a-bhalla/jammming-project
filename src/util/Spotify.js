@@ -17,7 +17,7 @@ const Spotify = {
           expiresIn = hasExpired[1];
           window.setTimeout(() => accessToken = '', expiresIn * 1000);
           window.history.pushState('Access Token', null, '/');
-          return apiKey;
+          return accessToken;
     } else {
       //redirects to another site.
       window.location = `https://accounts.spotify.com/authorize?client_id=${clientID}&response_type=token&scope=playlist-modify-public&${redirectURI}=`
@@ -25,10 +25,12 @@ const Spotify = {
   }
 },
 
-search(searchTerm) {
-  const endpoint = `https://api.spotify.com/v1/search?type=track&q=${searchTerm}`, {
+search(term) {
+  const accessToken = Spotify.getAccessToken();
+  return fetch(`https://api.spotify.com/v1/search?type=track&q=${term}`, {
   headers: {
-    Authorization: `Bearer ${accessToken}` }
+    Authorization: `Bearer ${accessToken}`
+  }
   }).then(response => {
     if(response.ok) {
       return response.json();
@@ -43,8 +45,7 @@ search(searchTerm) {
             artist: track.artists[0].name,
             album: track.album.name,
             URI: track.uri
-          }
-    ));
+          }));
       } else {
        return [];
     }
@@ -53,11 +54,11 @@ search(searchTerm) {
 },
 
 savePlaylist(playlistName, trackURIs) {
- if (!playlistName || !trackURIs) {
+ if (!playlistName || !trackURIs.length) {
    return;
  }
  const accessToken = Spotify.getAccessToken();
- const header = {Authorization: `Bearer ${accessToken}`};
+ const headers = { Authorization: `Bearer ${accessToken}` };
  let userID = '';
 
  //request to return user's Spotify username.

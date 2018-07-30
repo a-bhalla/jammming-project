@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './App.css';
+import './App/App.css';
 import Playlist from '../Playlist/Playlist';
 import SearchBar from '../SearchBar/SearchBar';
 import SearchResults from '../SearchResults/SearchResults';
@@ -58,8 +58,8 @@ class App extends Component {
       });
     }
 
-  search(searchTerm) {
-    Spotify.search(searchTerm).then(=> {
+  search(term) {
+    Spotify.search(term).then(() => {
       this.setState({ searchResults: result });
     })
   }
@@ -77,7 +77,8 @@ class App extends Component {
             playlistTracks={this.state.playlistTracks}
           />
   </div>
-</div>
+  </div>
+  </div>
     );
     }
   };
