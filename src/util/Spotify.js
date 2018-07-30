@@ -50,33 +50,22 @@ search(term) {
        return [];
     }
   });
- }
 },
 
-savePlaylist(playlistName, trackURIs) {
- if (!playlistName || !trackURIs.length) {
-   return;
- }
- const accessToken = Spotify.getAccessToken();
- const headers = { Authorization: `Bearer ${accessToken}` };
- let userID = '';
+savePlaylist(name, trackUris) {
+    if (!name || !trackUris.length) {
+      return;
+    }
+    const accessToken = Spotify.getAccessToken();
+    const headers = { Authorization: `Bearer ${accessToken}` };
+    let userId;
 
- //request to return user's Spotify username.
- return fetch(`https://api.spotify.com/v1/me`, {headers: headers}).then(response => {
-   headers: headers,
-   method: 'POST',
-   body: JSON.stringify({ name: playlistName })
- }).then(response => {
-   if(response.ok) {
-     return response.json();
-   }
-   throw new Error ('Request failed!');
- }, networkError => {
-   console.log(networkError.message)
+    return fetch('https://api.spotify.com/v1/me', {headers: headers}
+    ).then(response => response.json()
+    ).then(jsonResponse => {
  }).then(jsonResponse => {
    const playlistID = jsonResponse.id;
  })
-}
 
 //POST request to create a new playlist in the user's a/c and return a playlist ID.
 return fetch(`https://api.spotify.com/v1/users/${userID}/playlists`, {
@@ -98,5 +87,7 @@ return fetch(`https://api.spotify.com/v1/users/${userID}/playlists/${playlistID}
   method: 'POST',
   body: JSON.stringify({ uris: trackURIs })
 });
+}
+};
 
 export default Spotify;
