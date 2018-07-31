@@ -7,6 +7,7 @@ class SearchBar extends React.Component {
 
     this.search = this.search.bind(this);
     this.handleTermChange = this.handleTermChange.bind(this);
+    this.state = {term: ''};
   }
 
   search() {
@@ -14,7 +15,7 @@ class SearchBar extends React.Component {
   }
 
   handleTermChange(e) {
-    this.setState({ searchTerm: e.target.value });
+    this.setState({ term: e.target.value });
   }
 
   render() {

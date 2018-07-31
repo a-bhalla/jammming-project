@@ -62,7 +62,7 @@ savePlaylist(name, trackUris) {
     ).then(jsonResponse => {
  }).then(jsonResponse => {
    const playlistId = jsonResponse.id;
- })
+})
 
 //POST request to create a new playlist in the user's a/c and return a playlist ID.
 return fetch(`https://api.spotify.com/v1/users/${userId}/playlists`, {
@@ -84,6 +84,7 @@ return fetch(`https://api.spotify.com/v1/users/${userId}/playlists/${playlistId}
   method: 'POST',
   body: JSON.stringify({ uris: trackUris })
   });
+
 })
 }
 };
