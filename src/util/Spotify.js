@@ -19,7 +19,7 @@ const Spotify = {
     }
       //redirects to another site.
       console.log('Redirecting to Spotify ⏳');
-      const spotifyUrl =  `https://accounts.spotify.com/authorize?client_id=${clientID}&response_type=token&scope=playlist-modify-public&${redirectURI}=`
+      const spotifyUrl =  `https://accounts.spotify.com/authorize?client_id=${clientID}&response_type=token&scope=playlist-modify-public&=${redirectURI}`
       window.location = spotifyUrl;
   },
 
@@ -84,7 +84,7 @@ return fetch(`https://api.spotify.com/v1/users/${userId}/playlists/${playlistId}
   method: 'POST',
   body: JSON.stringify({ uris: trackUris })
   });
-});
+})
 }
 };
 
