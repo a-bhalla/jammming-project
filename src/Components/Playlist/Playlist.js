@@ -1,15 +1,14 @@
 import React from 'react';
 import './Playlist.css';
-import '../Tracklist'; //double check this.
+import TrackList from '../TrackList/TrackList';
 
 class Playlist extends React.Component {
   constructor(props) {
     super(props);
-
     this.handleNameChange = this.handleNameChange.bind(this);
   }
 
-  handleNameChange() {
+  handleNameChange(e) {
     this.props.onNameChange = e.target.value;
   }
 

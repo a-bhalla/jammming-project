@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './App/App.css';
+import './App.css';
 import Playlist from '../Playlist/Playlist';
 import SearchBar from '../SearchBar/SearchBar';
 import SearchResults from '../SearchResults/SearchResults';
@@ -10,14 +10,9 @@ class App extends Component {
     super(props);
 
     this.state = {
-      searchResults: [
-        {
-        name: "value",
-        artist: "value",
-        album: "value",
-        id: "value",
-        }
-      ],
+      searchResults: [],
+      playlistName: 'New Playlist',
+      playlistTracks: [],
     }
 
     this.addTrack = this.addTrack.bind(this);
@@ -28,7 +23,7 @@ class App extends Component {
   };
 
   addTrack(track) {
-    if (this.state.playlistTracks.find(savedTracks => savedTrack.id === track.id)) {
+    if (this.state.playlistTracks.find(savedTrack => savedTrack.id === track.id)) {
       return;
     }
     const newPlaylist = this.state.playlistTracks;
@@ -43,7 +38,7 @@ class App extends Component {
   }
 
   updatePlaylistName(name) {
-    this.setState({ playlistName: newPlaylist });
+    this.setState({ playlistName: name });
   }
 
   /*Generate array of uri values via playlistTracks.
@@ -59,8 +54,8 @@ class App extends Component {
     }
 
   search(term) {
-    Spotify.search(term).then(() => {
-      this.setState({ searchResults: result });
+    Spotify.search(term).then(results => {
+      this.setState({ searchResults: results });
     })
   }
 
@@ -75,6 +70,9 @@ class App extends Component {
           <Playlist
             playlistName={this.state.playlistName}
             playlistTracks={this.state.playlistTracks}
+            onRemove={this.removeTrack}
+            onNameChange={this.updatePlaylistName}
+            onSave={this.savePlaylist}
           />
   </div>
   </div>
