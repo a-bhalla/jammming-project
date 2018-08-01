@@ -1,10 +1,10 @@
-let accessToken = '';
 const clientId = '2f20eecc53c84e53906a8261897337ee';
-const redirectUri = 'http://jammming_deploy0.surge.sh';
+const redirectUri = 'https://jammming_deploy0.surge.sh';
+let accessToken = '';
 
 const Spotify = {
   getAccessToken() {
-    if(accessToken !== '') {
+    if(accessToken) {
       return accessToken;
     }
       const hasToken = window.location.href.match(/access_token=([^&]*)/);
@@ -53,40 +53,30 @@ savePlaylist(name, trackUris) {
     if (!name || !trackUris.length) {
       return;
     }
+
     const accessToken = Spotify.getAccessToken();
     const headers = { Authorization: `Bearer ${accessToken}` };
     let userId;
 
-    return fetch(`https://api.spotify.com/v1/me`, {headers: headers}
+    return fetch('https://api.spotify.com/v1/me', {headers: headers}
     ).then(response => response.json()
     ).then(jsonResponse => {
- }).then(jsonResponse => {
-   const playlistId = jsonResponse.id;
-})
-
-//POST request to create a new playlist in the user's a/c and return a playlist ID.
-return fetch(`https://api.spotify.com/v1/users/${userId}/playlists`, {
-  headers: headers,
-  method: 'POST',
-  body: JSON.stringify({ name: name })
-}).then(response => {
-  if(response.ok) {
-    return response.json();
+      userId = jsonResponse.id;
+      return fetch(`https://api.spotify.com/v1/users/${userId}/playlists`, {
+        headers: headers,
+        method: 'POST',
+        body: JSON.stringify({name: name})
+      }).then(response => response.json()
+      ).then(jsonResponse => {
+        const playlistId = jsonResponse.id;
+        return fetch(`https://api.spotify.com/v1/users/${userId}/playlists/${playlistId}/tracks`, {
+          headers: headers,
+          method: 'POST',
+          body: JSON.stringify({uris: trackUris})
+        });
+      });
+    });
   }
-  throw new Error('Request failed!');
-}, networkError => console.log(networkError.message)).then(jsonResponse => {
-  const playlistId = jsonResponse.id;
-
-
-//POST request to add new tracks to a playlist.
-return fetch(`https://api.spotify.com/v1/users/${userId}/playlists/${playlistId}/tracks`, {
-  headers: headers,
-  method: 'POST',
-  body: JSON.stringify({ uris: trackUris })
-  });
-
-})
-}
 };
 
 export default Spotify;
