@@ -1,6 +1,6 @@
 let accessToken = '';
-const clientID = '2f20eecc53c84e53906a8261897337ee';
-const redirectURI = 'https://jammming_test0.surge.sh';
+const clientId = '2f20eecc53c84e53906a8261897337ee';
+const redirectUri = 'http://jammming_deploy0.surge.sh';
 
 const Spotify = {
   getAccessToken() {
@@ -19,7 +19,7 @@ const Spotify = {
     }
       //redirects to another site.
       console.log('Redirecting to Spotify ⏳');
-      const spotifyUrl =  `https://accounts.spotify.com/authorize?client_id=${clientID}&response_type=token&scope=playlist-modify-public&=${redirectURI}`
+      const spotifyUrl =  `https://accounts.spotify.com/authorize?client_id=${clientId}&response_type=token&scope=playlist-modify-public&redirect_uri=${redirectUri}`
       window.location = spotifyUrl;
   },
 
