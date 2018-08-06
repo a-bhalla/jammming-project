@@ -1,5 +1,5 @@
 const clientId = '2f20eecc53c84e53906a8261897337ee';
-const redirectUri = 'https://jammming_deploy0.surge.sh';
+const redirectUri = 'http://localhost:3000/';
 let accessToken = '';
 
 const Spotify = {
